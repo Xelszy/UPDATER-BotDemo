@@ -7,8 +7,8 @@ import { app } from 'electron';
 // ============================================================
 // CONFIGURE YOUR GITHUB REPO HERE
 // ============================================================
-const GITHUB_OWNER = 'YOUR_GITHUB_USERNAME';   // <-- Ganti dengan username GitHub kamu
-const GITHUB_REPO = 'onetobotVS';              // <-- Ganti dengan nama repo kamu
+const GITHUB_OWNER = 'Xelszy';                 // <-- Ganti dengan username GitHub kamu
+const GITHUB_REPO = 'UPDATER-BotDemo';         // <-- Ganti dengan nama repo kamu
 // ============================================================
 
 export interface UpdateInfo {
