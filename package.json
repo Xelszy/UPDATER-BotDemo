@@ -1,14 +1,39 @@
 {
   "name": "onetobotvs",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "1.0.1",
+  "description": "UPDATER-BotDemo Application",
+  "author": "Xelszy",
+  "main": "dist/src/main/index.js",
   "scripts": {
     "build": "node build.js && tsc",
-    "start": "npm run build && electron dist/src/main/index.js"
+    "start": "npm run build && electron dist/src/main/index.js",
+    "pack": "npm run build && electron-builder --dir",
+    "dist": "npm run build && electron-builder"
+  },
+  "build": {
+    "appId": "com.xelszy.botdemo",
+    "productName": "UPDATER-BotDemo",
+    "directories": {
+      "output": "release/"
+    },
+    "files": [
+      "dist/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "runAfterFinish": true
+    }
   },
   "keywords": [],
-  "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
@@ -16,19 +41,20 @@
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^25.2.3",
     "csv-writer": "^1.6.0",
-    "electron": "^40.3.0",
     "electron-store": "^11.0.2",
     "fs-extra": "^11.3.3",
     "playwright": "^1.58.2",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "sharp": "^0.34.1",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.9.3"
+    "sharp": "^0.34.1"
   },
   "devDependencies": {
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "esbuild": "^0.27.3"
+    "electron": "^40.3.0",
+    "electron-builder": "^25.1.8",
+    "esbuild": "^0.27.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
   }
 }

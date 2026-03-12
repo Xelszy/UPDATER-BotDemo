@@ -63,6 +63,7 @@ const App = () => {
     const [updateStatus, setUpdateStatus] = useState<string>('');
     const [isChecking, setIsChecking] = useState(false);
     const [isDownloading, setIsDownloading] = useState(false);
+    const [updateReady, setUpdateReady] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
 
     // --- Saved Contacts ---
@@ -144,7 +145,8 @@ const App = () => {
                     setUpdateStatus('⬇️ Downloading update...');
                 } else if (data.type === 'done') {
                     setIsDownloading(false);
-                    setUpdateStatus('✅ Update selesai! Restart aplikasi.');
+                    setUpdateStatus('✅ Update selesai! Klik tombol Restart.');
+                    setUpdateReady(true);
                 } else if (data.type === 'error') {
                     setIsChecking(false);
                     setIsDownloading(false);
@@ -346,7 +348,22 @@ const App = () => {
                             )}
 
                             {/* Update info */}
-                            {updateInfo?.hasUpdate && (
+                            {updateReady ? (
+                                <div style={{ marginTop: '12px', padding: '10px', background: '#1a2a1a', borderRadius: '8px', border: '1px solid #2d5a2d' }}>
+                                    <p style={{ margin: '0 0 6px 0', fontSize: '13px', color: '#4CAF50', fontWeight: 'bold', textAlign: 'center' }}>
+                                        ✅ Update siap diterapkan!
+                                    </p>
+                                    <button
+                                        onClick={() => window.electron?.send('relaunch-app')}
+                                        style={{
+                                            background: '#4CAF50', color: 'white', border: 'none', borderRadius: '4px',
+                                            width: '100%', fontSize: '13px', padding: '8px', cursor: 'pointer'
+                                        }}
+                                    >
+                                        🔄 Restart Sekarang
+                                    </button>
+                                </div>
+                            ) : updateInfo?.hasUpdate && (
                                 <div style={{ marginTop: '12px', padding: '10px', background: '#1a2a1a', borderRadius: '8px', border: '1px solid #2d5a2d' }}>
                                     <p style={{ margin: '0 0 6px 0', fontSize: '13px', color: '#4CAF50', fontWeight: 'bold' }}>
                                         🆕 v{updateInfo.latestVersion} tersedia!

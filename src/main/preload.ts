@@ -3,7 +3,7 @@ import { contextBridge, ipcRenderer } from 'electron';
 
 contextBridge.exposeInMainWorld('electron', {
     send: (channel: string, data: any) => {
-        let validChannels = ['login-manual', 'login-cookies', 'start-boost', 'start-scrape', 'start-debug', 'run-csv-campaign', 'run-cookie-campaign', 'check-update', 'run-update'];
+        let validChannels = ['login-manual', 'login-cookies', 'start-boost', 'start-scrape', 'start-debug', 'run-csv-campaign', 'run-cookie-campaign', 'check-update', 'run-update', 'relaunch-app'];
         if (validChannels.includes(channel)) {
             ipcRenderer.send(channel, data);
         }

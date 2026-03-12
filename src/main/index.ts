@@ -356,6 +356,11 @@ ipcMain.on('run-update', async (event, data) => {
     }
 });
 
+ipcMain.on('relaunch-app', () => {
+    app.relaunch();
+    app.quit();
+});
+
 // --- Helpers ---
 function logToRenderer(msg: string) {
     console.log(msg);
