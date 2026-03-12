@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Sensitive data - JANGAN commit!
+*.csv
+saved_cookies/
+login_fail_debug.png
+sessions/
+
+# Debug / temp files
+stdout*.txt
+verify_*.ts
+verify_*.txt
+fail_dump.html
+fail_screenshot.png
+page_dump*.html
+*.traineddata
+PLANNING.md
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+.gemini/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment
+.env
+.env.*
+
+# Temp
+tmp/

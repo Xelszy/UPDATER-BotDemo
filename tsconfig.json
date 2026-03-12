@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "lib": [
+      "es2020",
+      "dom"
+    ],
+    "outDir": "./dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "types": [
+      "node",
+      "electron"
+    ],
+    "jsx": "react"
+  },
+  "include": [
+    "src/**/*",
+    "verify_login.ts",
+    "verify_geo.ts"
+  ]
+}
