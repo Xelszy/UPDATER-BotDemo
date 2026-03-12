@@ -207,6 +207,7 @@ export class UpdateService {
     private downloadFile(url: string, destPath: string): Promise<void> {
         return new Promise((resolve, reject) => {
             const makeRequest = (reqUrl: string, redirectCount: number = 0) => {
+                this.log(`⬇️ [UPDATE] GET ${reqUrl}`);
                 if (redirectCount > 5) {
                     reject(new Error('Too many redirects'));
                     return;
@@ -215,33 +216,46 @@ export class UpdateService {
                 const parsedUrl = new URL(reqUrl);
                 const protocol = parsedUrl.protocol === 'https:' ? https : http;
 
+                // Only send User-Agent. Many servers (like codeload.github.com) 
+                // reject requests with 415 if they don't like the Accept header.
                 const req = protocol.get(reqUrl, {
                     headers: {
                         'User-Agent': 'Botting-Updater',
-                        'Accept': 'application/octet-stream',
                     },
                 }, (res) => {
+                    this.log(`⬇️ [UPDATE] Download status: ${res.statusCode} ${res.statusMessage}`);
+                    
                     // Follow redirects
                     if (res.statusCode && res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+                        this.log(`⬇️ [UPDATE] Redirecting to: ${res.statusCode} -> ${res.headers.location}`);
                         makeRequest(res.headers.location, redirectCount + 1);
                         return;
                     }
 
                     if (res.statusCode !== 200) {
-                        reject(new Error(`Download failed: HTTP ${res.statusCode}`));
+                        reject(new Error(`Download failed: HTTP ${res.statusCode} ${res.statusMessage}`));
                         return;
                     }
 
                     const fileStream = fs.createWriteStream(destPath);
                     res.pipe(fileStream);
+                    
                     fileStream.on('finish', () => {
                         fileStream.close();
                         resolve();
                     });
-                    fileStream.on('error', reject);
+                    
+                    fileStream.on('error', (err) => {
+                        this.log(`❌ [UPDATE] File write error: ${err.message}`);
+                        reject(err);
+                    });
                 });
 
-                req.on('error', reject);
+                req.on('error', (err) => {
+                    this.log(`❌ [UPDATE] Request error: ${err.message}`);
+                    reject(err);
+                });
+                
                 req.setTimeout(60000, () => {
                     req.destroy();
                     reject(new Error('Download timeout'));
